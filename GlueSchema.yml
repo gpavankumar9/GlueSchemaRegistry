@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  GlueSchemaRegistry:
+    Type: 'AWS::Glue::Registry'
+    Properties:
+      Description: Glue Schem Registry for Avro
+      Name: L1_EDP
+  GlueSchema:
+    Type: 'AWS::Glue::Schema'
+    Properties:
+      CheckpointVersion:
+        VersionNumber: 1
+      Compatibility: BACKWARD
+      DataFormat: AVRO
+      Description: Avro Schema
+      Name: L3_api_Schema
+      Registry:
+          Arn: !GetAtt GlueSchemaRegistry.Arn
+      SchemaDefinition: >-
+        { "name": "MyClass", "type": "record", "namespace": "com.acme.avro",
+        "fields": [ { "name": "event_met", "type": { "name":
+        "event_met", "type": "record", "fields": [ { "name":
+        "x_corr_id", "type": "string" } ] } } ] }
+  GlueSchemaVersion:
+    Type: AWS::Glue::SchemaVersion
+    Properties: 
+      Schema: 
+        SchemaArn: !GetAtt GlueSchema.Arn
+      SchemaDefinition: >-
+        { "name": "MyClass", "type": "record", "namespace": "com.acme.avro",
+        "fields": [ { "name": "event_met", "type": { "name": "event_met", "type":
+        "record", "fields": [ { "name": "x_corr_id", "type": "string" }, {"name":
+        "x2_corr_id","type": "string","default": "null"}, {"name":
+        "x3_corr_id","type": "string","default": "null"},{"name":
+        "x4_corr_id","type": "string","default": "null"},{"name":
+        "x5_corr_id","type": "string","default": "null"} ] } } ] }
+  GlueSchemaVersion2:
+    Type: AWS::Glue::SchemaVersion
+    Properties: 
+      Schema: 
+        SchemaArn: !GetAtt GlueSchema.Arn
+      SchemaDefinition: >-
+        { "name": "MyClass", "type": "record", "namespace": "com.acme.avro",
+        "fields": [ { "name": "event_met", "type": { "name": "event_met", "type":
+        "record", "fields": [ { "name": "x_corr_id", "type": "string" }, {"name":
+        "x2_corr_id","type": "string","default": "null"}, {"name":
+        "x3_corr_id","type": "string","default": "null"},{"name":
+        "x4_corr_id","type": "string","default": "null"},{"name":
+        "x5_corr_id","type": "string","default": "null"},{"name":
+        "x6_corr_id","type": "string","default": "null"} ] } } ] }
